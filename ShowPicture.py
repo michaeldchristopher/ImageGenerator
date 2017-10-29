@@ -2,45 +2,52 @@ from tkinter import *
 from PIL import Image, ImageTk
 import os.path
 
-# PIC_Directory =  "/Users/Michael/Pictures/"   # mac
-
-PIC_Directory =  "C:/Users/mdchristopher/Pictures/Camera Roll/"   # Works
-
 class GUI():
     def __init__(self):
         self.filename = ""
         self.root = 0
-        self.MainImage = 0
         self.canvas = 0
+        self.image = 0
+        self.image_id = 0
+        self.image_path = None
 
     def ChooseImage(self, fname):
-        fname = PIC_Directory + fname
+        fname = self.image_path + fname
         oldfilename = self.filename
         if not os.path.exists(fname): # if it not a file get out
             print("can't open Image: %s " % fname)
             return
         try:
+            if (self.image_id != 0):
+                self.canvas.delete(self.image_id)
             self.image = Image.open(fname)
             self.image.thumbnail((1200, 1200))
             self.photo = ImageTk.PhotoImage(self.image)
-            self.canvas.create_image(0, 0, image=self.photo, anchor="nw")
+            self.image_id = self.canvas.create_image(0, 0, image=self.photo, anchor="nw")
             self.filename =  fname
             print("Change to Image: %s " % self.filename)
         except:
             self.filename = oldfilename
 
     def guitask(self):
-        self.root.after(1000, self.guitask)
+        self.root.after(100, self.guitask)
 
     def clickCallback(self, event):
         print("clicked at", event.x, event.y)
+
+    def ShutDown(self):
+        self.root.quit()
 
     def key(self, event):
         print("pressed", repr(event.char))
         if (event.char == 'q'):
             self.root.quit()
 
-    def SpinUpGui(self):
+    def SpinUpGui(self,picpath=None):
+        if picpath == None:
+            self.image_path = os.getcwd()
+        else:
+            self.image_path = picpath
         self.root = Tk()
         self.ws = self.root.winfo_screenwidth()  # width of the screen
         self.hs = self.root.winfo_screenheight()  # height of the screen

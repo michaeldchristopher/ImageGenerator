@@ -1,3 +1,5 @@
+#! python3
+
 # This server processes commands to show requested images
 # Michael Christopher
 # copyright 2017
