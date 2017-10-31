@@ -47,7 +47,8 @@ class GUI():
         if picpath == None:
             self.image_path = os.getcwd()
         else:
-            self.image_path = picpath
+            self.image_path = os.path.join(picpath, '') # add a backslash if needed
+
         self.root = Tk()
         self.ws = self.root.winfo_screenwidth()  # width of the screen
         self.hs = self.root.winfo_screenheight()  # height of the screen

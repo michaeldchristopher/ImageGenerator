@@ -9,6 +9,7 @@ import threading
 import socketserver
 import ShowPicture
 import socket
+import sys
 
 PIC_Directory =  "/Users/Michael/Pictures/"   # mac
 # PIC_Directory =  "C:/Users/mdchristopher/Pictures/Camera Roll/"   # Works
@@ -69,5 +70,10 @@ if __name__ == '__main__':
     print('Server loop running in thread:', t.getName())
     global mygui
     mygui = ShowPicture.GUI()
-    mygui.SpinUpGui(PIC_Directory)
+    if (len(sys.argv) == 2):
+        mygui.SpinUpGui(sys.argv[1])
+        print("serving from ", sys.argv[1])
+    else:
+        mygui.SpinUpGui(PIC_Directory)
+        print("serving from ", PIC_Directory)
     server.socket.close()  # Clean up
