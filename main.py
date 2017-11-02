@@ -59,7 +59,13 @@ def clientSendReceive(ip, port, message):
         return response
 
 if __name__ == '__main__':
-    HOST, PORT = "localhost", 2000
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    myTCPAddressIs = s.getsockname()[0]
+    s.close()
+    print ("My address is", myTCPAddressIs)
+
+    HOST, PORT = myTCPAddressIs, 2000
     address = (HOST, PORT)  # let the kernel give us a port
     server = ThreadedPictureServer(address, FileServerHandler)
     ip, port = server.server_address  # find out what port we were given
